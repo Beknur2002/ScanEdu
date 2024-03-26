@@ -2,77 +2,42 @@ import React from "react";
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
+  FlatList,
   TouchableOpacity,
 } from "react-native";
 import { colors } from "../../../utils/helper";
 
-const subjectsData = [
-  { id: "1", name: "Mathematics" },
-  { id: "2", name: "Physics" },
-  { id: "3", name: "Chemistry" },
-  // Add more subjects as needed
-];
-
-const groupsData = [
-  {
-    id: "1",
-    name: "Group 1",
-    students: ["Student 1", "Student 2", "Student 3"],
-  },
-  {
-    id: "2",
-    name: "Group 2",
-    students: ["Student 4", "Student 5", "Student 6"],
-  },
-  // Add more groups as needed
+const coursesData = [
+  { id: "1", name: "Mathematics", attendance: "85%" },
+  { id: "2", name: "Physics", attendance: "78%" },
+  { id: "3", name: "Chemistry", attendance: "92%" },
+  // Add more courses as needed
 ];
 
 const TeacherHomeScreen = () => {
-  const renderSubjectItem = ({ item }) => (
+  const renderCourseItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.itemText}>{item.name}</Text>
+      <Text style={styles.subItemText}>Attendance: {item.attendance}</Text>
     </View>
   );
 
-  const renderGroupItem = ({ item }) => (
-    <View style={styles.item}>
-      <Text style={styles.itemText}>{item.name}</Text>
-      <Text style={styles.subItemText}>{item.students.join(", ")}</Text>
-    </View>
-  );
-
-  const handleAddSubject = () => {
-    // Handle adding a new subject
-    console.log("Add Subject");
-  };
-
-  const handleAddGroup = () => {
-    // Handle adding a new group
-    console.log("Add Group");
+  const handleAddCourse = () => {
+    // Обработка добавления нового курса
+    console.log("Add Course");
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Subjects</Text>
+      <Text style={styles.title}>Courses Overview</Text>
       <FlatList
-        data={subjectsData}
-        renderItem={renderSubjectItem}
+        data={coursesData}
+        renderItem={renderCourseItem}
         keyExtractor={(item) => item.id}
       />
-      <TouchableOpacity style={styles.addButton} onPress={handleAddSubject}>
-        <Text style={styles.buttonText}>Add Subject</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.title}>Groups</Text>
-      <FlatList
-        data={groupsData}
-        renderItem={renderGroupItem}
-        keyExtractor={(item) => item.id}
-      />
-      <TouchableOpacity style={styles.addButton} onPress={handleAddGroup}>
-        <Text style={styles.buttonText}>Add Group</Text>
+      <TouchableOpacity style={styles.addButton} onPress={handleAddCourse}>
+        <Text style={styles.buttonText}>Add Course</Text>
       </TouchableOpacity>
     </View>
   );
