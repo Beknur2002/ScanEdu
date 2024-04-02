@@ -5,12 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../utils/helper";
 import { useAtom } from "jotai";
 import { signed } from "../../atoms";
 import * as SecureStore from "expo-secure-store";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function TeacherLogin() {
   const navigation = useNavigation();
@@ -18,28 +20,45 @@ export default function TeacherLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    SecureStore.setItemAsync("role", "Teacher");
-    setIsSigned(true);
-    // Implement your login logic here
-    console.log("Logging in with email:", email, "and password:", password);
+  const handleLogin = async () => {
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("User logged in:", user.uid);
+
+      // Set user role to Teacher
+      SecureStore.setItemAsync("role", "Teacher");
+      setIsSigned(true);
+
+      // Navigate to the appropriate screen after login
+      // For example, you can navigate to the Teacher Home screen
+      // navigation.navigate("TeacherHome");
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      Alert.alert("Error", error.message);
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Teacher Login</Text>
       <TextInput
-        placeholderTextColor={"gray"}
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={"gray"}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
       />
       <TextInput
-        placeholderTextColor={"gray"}
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor={"gray"}
         value={password}
         onChangeText={setPassword}
         secureTextEntry

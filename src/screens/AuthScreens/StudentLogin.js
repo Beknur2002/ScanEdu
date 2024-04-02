@@ -5,12 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../utils/helper";
 import { useAtom } from "jotai";
 import { signed } from "../../atoms";
 import * as SecureStore from "expo-secure-store";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function StudentLogin() {
   const navigation = useNavigation();
@@ -18,11 +20,28 @@ export default function StudentLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    SecureStore.setItemAsync("role", "Student");
-    setIsSigned(true);
-    // Implement your login logic here
-    console.log("Logging in with email:", email, "and password:", password);
+  const handleLogin = async () => {
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("User logged in:", user.uid);
+
+      // Set user role to Student
+      SecureStore.setItemAsync("role", "Student");
+      setIsSigned(true);
+
+      // Navigate to the appropriate screen after login
+      // For example, you can navigate to the Student Home screen
+      // navigation.navigate("StudentHome");
+    } catch (error) {
+      console.error("Error logging in:", error.message);
+      Alert.alert("Error", error.message);
+    }
   };
 
   return (
@@ -38,8 +57,8 @@ export default function StudentLogin() {
       />
       <TextInput
         style={styles.input}
-        placeholderTextColor={"gray"}
         placeholder="Password"
+        placeholderTextColor={"gray"}
         value={password}
         onChangeText={setPassword}
         secureTextEntry

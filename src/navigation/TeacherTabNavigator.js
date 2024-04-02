@@ -8,6 +8,7 @@ import TeacherProfileScreen from "../screens/Teacher/TeacherProfile/TeacherProfi
 import CourseMaterials from "../screens/Teacher/Materials/CourseMaterials";
 import QrCodeScreen from "../screens/Teacher/QRCode/QrCodeScreen";
 import ReportsScreen from "../screens/Teacher/Reports/ReportsScreen";
+import StudentsScreen from "../screens/Teacher/Reports/StudentsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -37,7 +38,7 @@ const TeacherTabNavigator = () => {
       <Tab.Screen name="Главная" component={TeacherHomeScreen} />
       <Tab.Screen name="Материалы" component={CourseMaterials} />
       <Tab.Screen name="QR" component={QrCodeScreen} />
-      <Tab.Screen name="Отчеты" component={ReportsScreen} />
+      <Tab.Screen name="Отчеты" component={StudentsScreen} />
       <Tab.Screen name="Профиль" component={TeacherProfileScreen} />
     </Tab.Navigator>
   );

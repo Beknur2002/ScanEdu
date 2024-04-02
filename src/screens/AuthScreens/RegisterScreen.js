@@ -5,12 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../utils/helper";
 import { useAtom } from "jotai";
 import { signed } from "../../atoms";
 import * as SecureStore from "expo-secure-store";
+import "../../firebase/firebaseConfig";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Register() {
   const navigation = useNavigation();
@@ -21,25 +24,42 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     // Password confirmation validation
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-    // Your registration logic goes here
-    console.log(
-      "Registering with role:",
-      role,
-      "email:",
-      email,
-      "and password:",
-      password
-    );
-    // Navigate to the appropriate screen after registration
-    // navigation.navigate(role === "Teacher" ? "TeacherHome" : "StudentHome");
-    SecureStore.setItemAsync("role", role);
-    setIsSigned(true);
+
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("Registered user:", user.uid);
+
+      // Your registration logic goes here
+      console.log(
+        "Registering with role:",
+        role,
+        "email:",
+        email,
+        "and password:",
+        password
+      );
+
+      // Navigate to the appropriate screen after registration
+      // navigation.navigate(role === "Teacher" ? "TeacherHome" : "StudentHome");
+      SecureStore.setItemAsync("role", role);
+      SecureStore.setItemAsync("uid", user.uid);
+      setIsSigned(true);
+    } catch (error) {
+      console.error("Error registering:", error.message);
+      Alert.alert("Error", error.message);
+    }
   };
 
   return (
