@@ -46,10 +46,10 @@ export default function StudentLogin() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Student Login</Text>
+      <Text style={styles.title}>Авторизация для студента</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Почта"
         placeholderTextColor={"gray"}
         value={email}
         onChangeText={setEmail}
@@ -57,17 +57,14 @@ export default function StudentLogin() {
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Пароль"
         placeholderTextColor={"gray"}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-        <Text style={styles.registerText}>Not registered? Register here</Text>
+        <Text style={styles.buttonText}>Войти</Text>
       </TouchableOpacity>
     </View>
   );
@@ -109,5 +106,6 @@ const styles = StyleSheet.create({
   registerText: {
     color: colors.openBlue,
     marginTop: 20,
+    textDecorationLine: "underline",
   },
 });

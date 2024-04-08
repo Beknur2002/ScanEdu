@@ -22,13 +22,20 @@ export default function WelcomeScreen() {
         style={[styles.roleButton, role === "Teacher" && styles.selectedRole]}
         onPress={() => handleRoleSelection("Teacher")}
       >
-        <Text style={styles.roleButtonText}>Teacher</Text>
+        <Text style={styles.roleButtonText}>
+          Преподаватель/Преподавательница
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.roleButton, role === "Student" && styles.selectedRole]}
         onPress={() => handleRoleSelection("Student")}
       >
-        <Text style={styles.roleButtonText}>Student</Text>
+        <Text style={styles.roleButtonText}>Студент</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+        <Text style={styles.registerText}>
+          Не зарегистрирован? Зарегистрируйтесь здесь
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -62,5 +69,10 @@ const styles = StyleSheet.create({
   roleButtonText: {
     fontSize: 18,
     color: colors.openGray,
+  },
+  registerText: {
+    color: colors.openBlue,
+    marginTop: 20,
+    textDecorationLine: "underline",
   },
 });

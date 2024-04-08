@@ -71,6 +71,7 @@ const TeacherHomeScreen = () => {
         name: name,
         teacherId: teacherId,
         type: type,
+        subject_students: [],
       });
 
       console.log("New teacher_subject added successfully");
@@ -133,7 +134,7 @@ const TeacherHomeScreen = () => {
   const renderCourseItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.itemText}>{item.name}</Text>
-      <Text style={styles.subItemText}>Attendance: {item.type}</Text>
+      <Text style={styles.subItemText}>Дполонительно: {item.type}</Text>
       {/* <Text style={styles.subItemText}>Pdf uri: {item.pdfUrl}</Text> */}
       {item.pdfUrl && (
         <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -145,7 +146,7 @@ const TeacherHomeScreen = () => {
         </View>
       )}
       {!item.pdfUrl && (
-        <Button title="Add file" onPress={() => pickFile(item.id)} />
+        <Button title="Добавить файл" onPress={() => pickFile(item.id)} />
       )}
     </View>
   );
@@ -173,18 +174,20 @@ const TeacherHomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Courses Overview</Text>
+      <Text style={styles.title}>Обзор курсов</Text>
       {loading ? (
         <ActivityIndicator />
       ) : (
         <FlatList
           data={courses}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           renderItem={renderCourseItem}
           keyExtractor={(item) => item.id}
         />
       )}
       <TouchableOpacity style={styles.addButton} onPress={handleAddCourse}>
-        <Text style={styles.buttonText}>Add Course</Text>
+        <Text style={styles.buttonText}>Добавить курс</Text>
       </TouchableOpacity>
 
       <Modal
@@ -195,26 +198,23 @@ const TeacherHomeScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            {/* Input field for course name */}
             <TextInput
               style={styles.input}
-              placeholder="Course Name"
+              placeholder="Название курса"
               value={courseName}
               onChangeText={setCourseName}
             />
 
-            {/* Input field for course type */}
             <TextInput
               style={styles.input}
-              placeholder="Course Type"
+              placeholder="Дполонительно"
               value={courseType}
               onChangeText={setCourseType}
             />
 
-            {/* Save and cancel buttons */}
             <View style={styles.modalButtons}>
-              <Button title="Cancel" onPress={closeModal} />
-              <Button title="Save" onPress={handleSaveCourse} />
+              <Button title="Отмена" onPress={closeModal} />
+              <Button title="Создать" onPress={handleSaveCourse} />
             </View>
           </View>
         </View>
