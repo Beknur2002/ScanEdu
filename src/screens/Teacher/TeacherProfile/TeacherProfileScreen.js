@@ -103,7 +103,7 @@ const TeacherProfileScreen = () => {
           <ActivityIndicator size="large" color="#3C57A1" />
         </View>
       )}
-      <Text style={styles.title}>Teacher Profile</Text>
+      <Text style={styles.title}>Профиль</Text>
       <View style={styles.profileInfo}>
         <Text style={styles.label}>ФИО:</Text>
         <Text style={styles.info}>

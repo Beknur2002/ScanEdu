@@ -10,6 +10,7 @@ import { colors } from "../../../utils/helper";
 import { useAtom } from "jotai";
 import * as SecureStore from "expo-secure-store";
 import { signed } from "../../../atoms";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   query,
@@ -24,9 +25,9 @@ import { app, auth, db, storage } from "../../../firebase/firebaseConfig";
 
 // Dummy statistics for subjects
 const subjectStatistics = [
-  { subject: "Mathematics", score: 85 },
-  { subject: "Physics", score: 70 },
-  { subject: "Chemistry", score: 90 },
+  { subject: "Математика", score: 85 },
+  { subject: "Алгоритм", score: 70 },
+  { subject: "История", score: 90 },
   // Add more subjects as needed
 ];
 
@@ -43,6 +44,7 @@ const StudentProfileScreen = () => {
   const getStudentData = async () => {
     setLoading(true);
     let userId = await SecureStore.getItem("uid");
+    console.log(userId);
     try {
       const q = query(
         collection(db, "students"),
@@ -55,6 +57,7 @@ const StudentProfileScreen = () => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         setStudentData({ id: doc.id, ...data });
+        console.log({ id: doc.id, ...data });
       });
     } catch (error) {
       console.error("Error fetching teacher subjects:", error);
@@ -70,6 +73,35 @@ const StudentProfileScreen = () => {
     await SecureStore.deleteItemAsync("role");
     setIsSigned(false);
   };
+
+  const auth = getAuth();
+
+  // // Add an authentication state change listener
+  // const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     // User is signed in
+  //     const uid = user.uid;
+  //     const email = user.email;
+  //     const displayName = user.displayName;
+  //     const photoURL = user.photoURL;
+
+  //     SecureStore.setItem("uid", uid);
+
+  //     // You can use this information as needed in your application
+  //     console.log("User ID:", uid);
+  //     console.log("Email:", email);
+  //     console.log("Display Name:", displayName);
+  //     console.log("Photo URL:", photoURL);
+
+  //     // You may want to store this information in your app's state
+  //     // or use it to render UI elements
+  //   } else {
+  //     // User is signed out
+  //     console.log("User is signed out");
+  //     console.log(user);
+  //     console.log(auth);
+  //   }
+  // });
 
   useEffect(() => {
     getStudentData();
@@ -94,7 +126,7 @@ const StudentProfileScreen = () => {
         {/* Add more student data here */}
       </View>
       <View style={styles.statistics}>
-        <Text style={styles.statisticsTitle}>Subject Statistics:</Text>
+        <Text style={styles.statisticsTitle}>Статистика:</Text>
         {subjectStatistics.map((subjectStat) => (
           <View key={subjectStat.subject} style={styles.subjectStat}>
             <Text style={styles.subjectName}>{subjectStat.subject}</Text>

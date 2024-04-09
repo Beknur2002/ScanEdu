@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 import StudentHomeScreen from "../screens/Student/StudentHome/StudentHomeScreen";
 import StudentProfileScreen from "../screens/Student/StudentProfile/StudentProfileScreen";
+import QrCodeScreen from "../screens/Teacher/QRCode/QrCodeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -19,6 +20,8 @@ const StudentTabNavigator = () => {
 
           if (route.name === "Главная") {
             iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "QR") {
+            iconName = focused ? "qr-code" : "qr-code-outline";
           } else if (route.name === "Профиль") {
             iconName = focused ? "person" : "person-outline";
           }
@@ -29,6 +32,7 @@ const StudentTabNavigator = () => {
       })}
     >
       <Tab.Screen name="Главная" component={StudentHomeScreen} />
+      <Tab.Screen name="QR" component={QrCodeScreen} />
       <Tab.Screen name="Профиль" component={StudentProfileScreen} />
     </Tab.Navigator>
   );

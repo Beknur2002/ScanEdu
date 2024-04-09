@@ -143,6 +143,8 @@ const TeacherHomeScreen = () => {
             size={180}
             logo={require("../../../../assets/icon.png")}
           />
+
+          <Button title="Копировать" onPress={() => console.log(item)} />
         </View>
       )}
       {!item.pdfUrl && (

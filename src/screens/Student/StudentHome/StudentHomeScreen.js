@@ -51,6 +51,7 @@ const StudentHomeScreen = () => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         teacherSubjects.push({ id: doc.id, ...data });
+        console.log({ id: doc.id, ...data });
       });
       console.log(teacherSubjects);
 
@@ -173,11 +174,31 @@ const StudentHomeScreen = () => {
       <Text style={styles.subItemText}>Дполонительно: {item.type}</Text>
       {/* <Text style={styles.subItemText}>Pdf uri: {item.pdfUrl}</Text> */}
       {item.pdfUrl && (
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingVertical: 15,
+          }}
+        >
           <QRCode
             value={item.pdfUrl}
             size={180}
             logo={require("../../../../assets/icon.png")}
+          />
+        </View>
+      )}
+      {item.pdfUrl && (
+        <View style={{ paddingVertical: 10 }}>
+          <Button
+            title="Открыть документ"
+            onPress={() =>
+              console.log(item.id, {
+                studentId: userId,
+                name: username,
+                surname: userSurname,
+              })
+            }
           />
         </View>
       )}

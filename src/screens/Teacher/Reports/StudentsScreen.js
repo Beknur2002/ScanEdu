@@ -12,6 +12,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app, auth, db, storage } from "../../../firebase/firebaseConfig";
+import { colors } from "../../../utils/helper";
 
 const StudentsScreen = () => {
   const [students, setStudents] = useState([]);
@@ -20,18 +21,17 @@ const StudentsScreen = () => {
   const [editingStudentId, setEditingStudentId] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = firebase
-      .firestore()
-      .collection("students")
-      .onSnapshot((snapshot) => {
-        const studentsList = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setStudents(studentsList);
-      });
-
-    return () => unsubscribe();
+    // const unsubscribe = firebase
+    //   .firestore()
+    //   .collection("students")
+    //   .onSnapshot((snapshot) => {
+    //     const studentsList = snapshot.docs.map((doc) => ({
+    //       id: doc.id,
+    //       ...doc.data(),
+    //     }));
+    //     setStudents(studentsList);
+    //   });
+    // return () => unsubscribe();
   }, []);
 
   const addStudent = async () => {
@@ -101,7 +101,7 @@ const StudentsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text>StudentsScreen</Text>
+      <Text>Студенты</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
+    backgroundColor: colors.main,
   },
   inputContainer: {
     flexDirection: "row",
